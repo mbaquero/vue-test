@@ -11,6 +11,9 @@
             xs12
             md4
           >
+            <v-button @click="getAll()">getAll</v-button>
+            <v-button @click="getTareasPendientes()">getTareasPendientes</v-button>
+            <v-button @click="getUserInformation()">user-information</v-button>
             <v-text-field
               v-model="firstname"
               :rules="nameRules"
@@ -19,7 +22,6 @@
               required
             ></v-text-field>
           </v-flex>
-
           <v-flex
             xs12
             md4
@@ -33,17 +35,7 @@
             ></v-text-field>
           </v-flex>
 
-          <v-flex
-            xs12
-            md4
-          >
-            <v-text-field
-              v-model="email"
-              :rules="emailRules"
-              label="E-mail"
-              required
-            ></v-text-field>
-          </v-flex>
+
         </v-layout>
         <v-layout>
           <v-data-table
@@ -104,19 +96,22 @@
 <script>
   import axios from 'axios'
 
-  const SERVER_URL = 'http://localhost:8080/AppMaestroPlanGrupo';
+  const SERVER_URL = 'http://localhost:9080/AppMaestroBanco/';
+
+  const SERVER_ESCRITORIO_URL = 'http://axpreweb2.central.inditex.grp/AppMaestroEscritorio/';
 
   const instance = axios.create({
     baseURL: SERVER_URL,
     timeout: 1000
   });
 
+  const axiosEscritorio = axios.create({
+    baseURL: SERVER_ESCRITORIO_URL,
+    timeout: 1000
+  });
+
   export default {
-  getAll: () => instance.post('gestionCuentasGrupoService.rpc', {
-    transformResponse: [function (data) {
-      return data? JSON.parse(data)._embedded.todos : data;
-    }]
-  }),
+
     data: () => ({
       ecosystem: [
         {
@@ -269,6 +264,21 @@
       ]
     }),
   methods: {
+      getAll: () => instance.get('gwtMainEntryPoint/busquedaProductoFinanciero.htm?idProductoFinanciero=326465', {
+        transformResponse: [function (data) {
+          return data? JSON.parse(data)._embedded.todos : data;
+        }]
+      }),
+      getTareasPendientes: () => axiosEscritorio.get('GetNumeroTareas?user=mariobra', {
+        transformResponse: [function (data) {
+          return data? JSON.parse(data)._embedded.todos : data;
+        }]
+      }),
+      getUserInformation: () => instance.get('user-information.rpc', {
+        transformResponse: [function (data) {
+          return data? JSON.parse(data)._embedded.todos : data;
+        }]
+      }),
       toggleAll () {
         if (this.selected.length) this.selected = []
         else this.selected = this.desserts.slice()

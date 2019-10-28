@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "core-js": "^2.6.5",
+    "mongodb": "^3.3.2",
+    "mongoose": "^5.7.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
-    "vuetify": "^1.5.5"
+    "vuetify": "^1.5.5",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
